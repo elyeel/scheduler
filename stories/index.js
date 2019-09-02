@@ -8,11 +8,12 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 /* Storybook is a test environment. We need to import the component that we are testing. */
-import Task from "./Task";
+import Task from "Task.js";
+import Button from "components/Button";
 
 import "index.scss";
 
-import Button from "components/Button";
+
 
 /* This is fake data that we can pass as a prop to each version of our Task. */
 export const task = {
@@ -40,3 +41,10 @@ storiesOf("Task", module)
   .add("archived", () => (
     <Task task={{ ...task, state: "TASK_ARCHIVED" }} {...actions} />
   ));
+
+storiesOf("Button", module)
+  .add("Base", () => <Button>Base</Button>)
+  .add("Confirm", () => <Button confirm>Confirm</Button>)
+  .add("Danger", ()=> <Button danger>Cancel</Button>)
+  .add("Clickable", () => <Button onClick={action("button-clicked")}>Clickable</Button>)
+  .add("Disabled", () => <Button disabled onClick={action("button-clicked")}>Disabled</Button>)
