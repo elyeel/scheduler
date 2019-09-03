@@ -20,7 +20,7 @@ export default function DayListItem(props) {
   const spt = formatSpots(props.spots);
 
   return (
-    <li className={dayClass} onClick={() => props.setDay(props.name)}>
+    <li className={dayClass} onClick={() => props.setInterviewer(props.name)}>
       <h2 className="text--regular">{props.name}</h2> 
       <h3 className="text--light">{spt}</h3>
     </li>
