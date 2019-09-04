@@ -222,5 +222,6 @@ storiesOf("Appointment", module)
       interviewers={interviewers}
       onSave={action("onSave")}
       onCancel={action("onCancel")}
+      setInterviewer={event => action("setInterviewer")(5)}
     />
   ))
