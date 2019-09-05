@@ -5,6 +5,7 @@ import "components/InterviewerListItem.scss";
 
 
 export default function InterviewerListItem(props) {
+  console.log("ILItems props =", props);
   const interviewerClass = classname(
     "interviewers__item",
     {"interviewers__item--selected": props.selected},
@@ -19,7 +20,6 @@ export default function InterviewerListItem(props) {
         className="interviewers__item-image"
         src={props.avatar}
         alt={props.name}
-        selected
       />
       {props.selected && props.name}
     

@@ -132,8 +132,8 @@ $appointment-height: 11rem;
   &__create-input {
     background-color: $dark-background;
     border: 0;
-    border-bottom: 1px solid;
-    color: $white;
+    border-bottom: 1px solid !important;
+    color: $white !important;
     font-size: 1.5rem;
     height: 2rem;
     margin-bottom: 0.25rem;

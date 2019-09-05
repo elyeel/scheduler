@@ -1,5 +1,5 @@
 /* We need to import React because we are using JSX. */
-import React from "react";
+import React, { Fragment } from 'react'
 
 /* The storiesOf function from the React version of Storybook is used to start a series of stories. */
 import { storiesOf } from "@storybook/react";
@@ -28,7 +28,6 @@ import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
 import Form from "components/Appointment/Form";
-import { tsPropertySignature } from "@babel/types";
 
 
 /* This is fake data that we can pass as a prop to each version of our Task. */
@@ -212,9 +211,11 @@ storiesOf("Appointment", module)
     <Form 
       name=""
       interviewers={interviewers}
-      interviewer={2}
+      interviewer={3}
       onSave={action("onSave")}
       onCancel={action("onCancel")}
+      // setInterviewer={id => action("setInterviewer")(id)}
+
     />
   ))
   .add("Create", () => (
@@ -222,6 +223,23 @@ storiesOf("Appointment", module)
       interviewers={interviewers}
       onSave={action("onSave")}
       onCancel={action("onCancel")}
-      setInterviewer={event => action("setInterviewer")(5)}
+      // setInterviewer={event => action("setInterviewer")(interviewer.id)}
     />
+  ))
+
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="12pm" />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ))
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="12pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer: "Sylvia Palmer" }}
+      />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
   ))

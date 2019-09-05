@@ -1,40 +1,52 @@
 import React, { useState } from "react";
-import "./styles.scss";
+// import "./styles.scss";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
+import { action } from "@storybook/addon-actions";
 
 export default function Form (props) {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(props.name || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null); //useState version of setInterviewer
+
   console.log("inside form --->", props);
+  const reset = function() {
+    setName("");
+    setInterviewer(null);
+    props.onCancel();
+  }
+
+  const save = function() {
+    props.onSave(name, interviewer);
+  }
   
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form autoComplete="off">
+        <form autoComplete="off"
+          onSubmit={event => event.preventDefault()}
+        >
           <input
+            onChange={(event) => setName(event.target.value)}
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
             value={name}
             placeholder="Enter Student Name"
-            onChange={(event) => setName(event.target.value)}
             /*
               This must be a controlled component
             */
-          />{name && (
-            <h1>Hello, {name}.</h1>
-        )}
+          />
         </form>
         <InterviewerList 
           interviewers={props.interviewers} 
-          value={props.interviewer} 
-          setInterviewer={props.setInterviewer} 
+          interviewer={interviewer} 
+          setInterviewer={setInterviewer} 
         />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger>Cancel</Button>
-          <Button confirm>Save</Button>
+          <Button danger onClick={reset}>Cancel</Button>
+          <Button confirm onClick={save} >Save</Button>
         </section>
       </section>
     </main>
