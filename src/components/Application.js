@@ -100,16 +100,23 @@ export default function Application(props) {
 			Promise.resolve(axios.get("/api/days")),
 			Promise.resolve(axios.get("/api/appointments"))
 		]).then(all => {
+			const [days, appointments] = all;
 			setState(prev => ({
 				...prev,
-				days: all[0].data,
-				appointments: [all[1].data]
+				days: days.data,
+				appointments: appointments.data
 			}));
 		});
 	}, []);
-
-	console.log(state.appointments[0]); // -> it's an object now
-	let list = state.appointments.map(appt => {
+	const test = Object.values(state.appointments);
+	console.log(test);
+	//convert appointment state object to array
+	let liste = [];
+	for (let appts in state.appointments) {
+		liste.push(state.appointments[appts]);
+	}
+	console.log(liste); // -> it's an object now
+	let list = liste.map(appt => {
 		return (
 			<Appointment key={appt.id} {...appt} />
 			// <Appointment
