@@ -116,7 +116,10 @@ export default function Application(props) {
 		liste.push(state.appointments[appts]);
 	}
 	console.log(liste); // -> it's an object now
-	let list = liste.map(appt => {
+
+	const apptForDay = getAppointmentsForDay(test, state.day);
+
+	let list = apptForDay.map(appt => {
 		return (
 			<Appointment key={appt.id} {...appt} />
 			// <Appointment
