@@ -23,7 +23,7 @@ export default function DayListItem(props) {
 		<li
 			className={dayClass}
 			// key={props.key}
-			onClick={() => props.setInterviewer(props.name)}
+			onClick={() => props.setDay(props.name)}
 		>
 			<h2 className="text--regular">{props.name}</h2>
 			<h3 className="text--light">{spt}</h3>

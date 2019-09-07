@@ -75,8 +75,10 @@ export default function Application(props) {
 	const [state, setState] = useState({
 		day: "Monday",
 		days: [],
-		appointments: []
+		appointments: {},
+		interviewers: {}
 	});
+	const setDay = day => setState({ ...state, day });
 
 	// useEffect(() => {
 	// 	axios.get("http://localhost:8001/api/days").then(response => {
@@ -98,28 +100,30 @@ export default function Application(props) {
 	useEffect(() => {
 		Promise.all([
 			Promise.resolve(axios.get("/api/days")),
-			Promise.resolve(axios.get("/api/appointments"))
+			Promise.resolve(axios.get("/api/appointments")),
+			Promise.resolve(axios.get("/api/interviewers"))
 		]).then(all => {
-			const [days, appointments] = all;
+			// console.log("got here", all[1].data);
+			const [days, appointments, interviewers] = all;
 			setState(prev => ({
 				...prev,
-				days: days.data,
-				appointments: appointments.data
+				days: Object.values(days.data),
+				appointments: Object.values(appointments.data),
+				interviewers: Object.values(interviewers.data)
 			}));
 		});
 	}, []);
-	const test = Object.values(state.appointments);
-	console.log(test);
+	// const test = Object.values(state.appointments);
+	// console.log("appt", state.appointments);
 	//convert appointment state object to array
-	let liste = [];
-	for (let appts in state.appointments) {
-		liste.push(state.appointments[appts]);
-	}
-	console.log(liste); // -> it's an object now
+	// let liste = [];
+	// for (let appts in state.appointments) {
+	// 	liste.push(state.appointments[appts]);
+	// }
+	// console.log(liste); // -> it's an object now
 
-	const apptForDay = getAppointmentsForDay(test, state.day);
-
-	let list = apptForDay.map(appt => {
+	// const apptForDay = []; //getAppointmentsForDay(test, state.day);
+	let list = getAppointmentsForDay(state, state.day).map(appt => {
 		return (
 			<Appointment key={appt.id} {...appt} />
 			// <Appointment
@@ -130,6 +134,9 @@ export default function Application(props) {
 			// />
 		);
 	});
+	// console.log("result ", state.day, " - ", list);
+
+	// console.log("state passed as props", state);
 	return (
 		<main className="layout">
 			<section className="sidebar">
@@ -140,7 +147,7 @@ export default function Application(props) {
 				/>
 				<hr className="sidebar__separator sidebar--centered" />
 				<nav className="sidebar__menu">
-					<DayList days={state.days} day={state.day} setDay={state.setDay} />
+					<DayList days={state.days} day={state.day} setDay={setDay} />
 				</nav>
 				<img
 					className="sidebar__lhl sidebar--centered"

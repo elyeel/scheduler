@@ -7,8 +7,9 @@ export default function getAppointmentsForDay(state, day) {
 		}
 	}
 	for (let app of appts) {
-		filteredDay.push(state.appointments[app]);
+		state.appointments[app] && filteredDay.push(state.appointments[app]);
 	}
 	// const filteredDay = state.days.filter(appointments => appointments.name === name);
+	// console.log("result of getAppbyday ", "day -", day, filteredDay);
 	return filteredDay;
 }
