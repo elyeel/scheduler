@@ -3,71 +3,7 @@ import axios from "axios";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
 import "components/Application.scss";
-import getAppointmentsForDay, { getInterview } from "components/helpers/selectors";
-let days = [
-	// {
-	// 	id: 1,
-	// 	name: "Monday",
-	// 	spots: 2
-	// },
-	// {
-	// 	id: 2,
-	// 	name: "Tuesday",
-	// 	spots: 5
-	// },
-	// {
-	// 	id: 3,
-	// 	name: "Wednesday",
-	// 	spots: 0
-	// }
-];
-let appointments = [
-	// {
-	// 	id: 1,
-	// 	time: "12pm"
-	// },
-	// {
-	// 	id: 2,
-	// 	time: "1pm",
-	// 	interview: {
-	// 		student: "Lydia Miller-Jones",
-	// 		interviewer: {
-	// 			id: 1,
-	// 			name: "Sylvia Palmer",
-	// 			avatar: "https://i.imgur.com/LpaY82x.png"
-	// 		}
-	// 	}
-	// },
-	// {
-	// 	id: 3,
-	// 	time: "2pm",
-	// 	interview: {
-	// 		student: "Svada Kirchner",
-	// 		interviewer: {
-	// 			id: 4,
-	// 			name: "Cohana Roy",
-	// 			avatar: "https://i.imgur.com/FK8V841.jpg"
-	// 		}
-	// 	}
-	// },
-	// {
-	// 	id: 4,
-	// 	time: "3pm",
-	// 	interview: {
-	// 		student: "Martin Jones",
-	// 		interviewer: {
-	// 			id: 5,
-	// 			name: "Sven Jones",
-	// 			avatar: "https://i.imgur.com/twYrpay.jpg"
-	// 		}
-	// 	}
-	// },
-	// {
-	// 	id: 5,
-	// 	time: "4pm"
-	// }
-];
-
+import {getAppointmentsForDay, getInterview, getInterviewersForDay } from "components/helpers/selectors";
 
 
 export default function Application(props) {
@@ -102,11 +38,28 @@ export default function Application(props) {
 	
 	
 	let list = getAppointmentsForDay(state, state.day).map(appt => {
-		const interview = getInterview(state, appt.interview)
+		const interview = getInterview(state, appt.interview);
+		const interviewers = getInterviewersForDay(state, state.day);
 
-		function bookInterview(id="2", interview="Def") {
-			console.log(id, interview);
-		}
+		function bookInterview(id, interview) {
+			const appointment = {
+				...state.appointments[id],
+				interview: { ...interview }
+			};
+
+			const appointments = {
+				...state.appointments,
+				[id]: appointment
+			};
+			console.log("interview ->", interview);
+			return axios.put("/api/appointments/:id", {interview})
+			.then(response => {
+				setState({
+					...state,
+					appointments
+				});
+			});
+		};
 
 		return (
 			<Appointment 
@@ -114,6 +67,7 @@ export default function Application(props) {
 				{...appt}
 				interview={interview}
 				bookInterview={bookInterview}
+				interviewers={interviewers}
 			/>
 			// <Appointment
 

@@ -1,4 +1,4 @@
-export default function getAppointmentsForDay(state, day) {
+export function getAppointmentsForDay(state, day) {
 	const filteredDay = [];
 	let appts = [];
 	for (let selectDay of state.days) {
@@ -35,9 +35,11 @@ export function getInterviewersForDay(state, day) {
 	let intvws = [];
 	for (let selectDay of state.days) {
 		if (selectDay.name === day) {
+			console.log('got here');
 			intvws = selectDay.interviewers;
 		}
 	}
+	console.log(intvws);
 	if (intvws.length < 1) {
 		return interviews;
 	}
