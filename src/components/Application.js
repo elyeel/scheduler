@@ -68,6 +68,8 @@ let appointments = [
 	// }
 ];
 
+
+
 export default function Application(props) {
 	// const [day, setDay] = useState("Monday");
 	// const setDay = day => setState({ ...state, day });
@@ -79,23 +81,6 @@ export default function Application(props) {
 		interviewers: {}
 	});
 	const setDay = day => setState({ ...state, day });
-
-	// useEffect(() => {
-	// 	axios.get("http://localhost:8001/api/days").then(response => {
-	// 		// console.log("Axios response", response);
-	// 		// setDays(response.data);
-	// 		// days = response.data;
-	// 		console.log("days =", response.data);
-	// 	});
-	// }, []);
-
-	// useEffect(() => {
-	// 	axios.get("http://localhost:8001/api/appointments").then(response => {
-	// 		// console.log("Axios response", response);
-	// 		appointments = response.data;
-	// 		console.log("appointments =", appointments);
-	// 	});
-	// }, []);
 
 	useEffect(() => {
 		Promise.all([
@@ -113,23 +98,22 @@ export default function Application(props) {
 			}));
 		});
 	}, []);
-	// const test = Object.values(state.appointments);
-	// console.log("appt", state.appointments);
-	//convert appointment state object to array
-	// let liste = [];
-	// for (let appts in state.appointments) {
-	// 	liste.push(state.appointments[appts]);
-	// }
-	// console.log(liste); // -> it's an object now
 
-	// const apptForDay = []; //getAppointmentsForDay(test, state.day);
+	
+	
 	let list = getAppointmentsForDay(state, state.day).map(appt => {
 		const interview = getInterview(state, appt.interview)
+
+		function bookInterview(id="2", interview="Def") {
+			console.log(id, interview);
+		}
+
 		return (
 			<Appointment 
 				key={appt.id} 
 				{...appt}
 				interview={interview}
+				bookInterview={bookInterview}
 			/>
 			// <Appointment
 
@@ -139,6 +123,8 @@ export default function Application(props) {
 			// />
 		);
 	});
+
+
 	// console.log("result ", state.day, " - ", list);
 
 	// console.log("state passed as props", state);
