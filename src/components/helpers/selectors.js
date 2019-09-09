@@ -28,3 +28,20 @@ export function getInterview(state, interview) {
 	// console.log(result);
 	return result;
 }
+
+export function getInterviewersForDay(state, day) {
+	const interviews = [];
+	let intvws = [];
+	for (let selectDay of state.days) {
+		if (selectDay.name === day) {
+			intvws = selectDay.interviewers;
+		}
+	}
+	if (intvws.length < 1) {
+		return interviews;
+	}
+	for (let intv of intvws) {
+		state.interviewers[intv] && interviews.push(state.interviewers[intv]);
+	}
+	return interviews;
+}

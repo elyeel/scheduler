@@ -39,14 +39,19 @@
 		"@storybook/react": "^5.0.10",
 		"@testing-library/jest-dom": "^4.0.0",
 		"@testing-library/react": "^8.0.7",
+		"@testing-library/react-hooks": "^2.0.1",
 		"babel-loader": "^8.0.5",
 		"node-sass": "^4.11.0",
-		"prop-types": "^15.7.2"
+		"prop-types": "^15.7.2",
+		"react-test-renderer": "^16.9.0"
 	},
 	"jest": {
 		"watchPathIgnorePatterns": [
 			"<rootDir>/node_modules/",
 			"<rootDir>/.git"
+		],
+		"modulePathIgnorePatterns": [
+			"<rootDir>/node_modules/"
 		]
 	},
 	"proxy": "http://localhost:8001"
