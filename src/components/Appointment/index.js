@@ -71,6 +71,15 @@ export default function Appointment(props) {
 					onConfirm={destroy}
 				/>
 			)}
+			{mode === EDIT && (
+				<Form
+					interviewers={props.interviewers}
+					name={props.interview.student}
+					interviewer={props.interview.interviewer.id}
+					onCancel={() => back()}
+					onSave={save}
+				/>
+			)}
 			{/* {mode === CONFIRM && <Confirm onCancel={() => back()} />} */}
 		</article>
 	);
