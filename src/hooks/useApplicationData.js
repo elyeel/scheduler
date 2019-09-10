@@ -13,26 +13,63 @@ export default function useApplicationData() {
 		interviewers: {}
 	});
 
-	function reducer(states, action) {
-		let state = { ...states };
+	function reducer(state, action) {
 		switch (action.type) {
 			case SET_DAY:
-				state.day = action.value;
-				break;
+				return { ...state, day: action.value };
 			case SET_APPLICATION_DATA:
-				state.days = action.value.days;
-				state.appointments = action.value.appointments;
-				state.interviewers = action.value.interviewers;
-				break;
+				return {
+					...state,
+					days: action.value.days,
+					appointments: action.value.appointments,
+					interviewers: action.value.interviewers
+				};
 			case SET_INTERVIEW:
-				state.appointments = action.value;
-				break;
+				const appointment = {
+					...state.appointments[action.id],
+					interview: action.interview && { ...action.interview }
+				};
+
+				//updates appointments with new object {id: appointment}
+				const appointments = {
+					...state.appointments,
+					[action.id]: appointment
+				};
+
+				// updating spots, get day from days with interview id
+				const findDay = function(days, id) {
+					for (let item of days) {
+						for (let value of item.appointments) {
+							if (value === id) {
+								return item;
+							}
+						}
+					}
+					return null;
+				};
+				const foundDay = findDay(state.days, action.id);
+
+				let spots = 0;
+				for (let apptId of foundDay.appointments) {
+					if (appointments[apptId].interview === null) {
+						spots += 1;
+					}
+				}
+
+				const days = state.days.map(day => {
+					if (day.name === foundDay.name) {
+						return { ...day, spots };
+					} else {
+						return day;
+					}
+				});
+
+				return { ...state, appointments, days };
 			default:
 				throw new Error(
 					`Tried to reduce with unsupported action type: ${action.type}`
 				);
 		}
-		return state;
 	}
 
 	// const [state, setState] = useState({
@@ -56,49 +93,24 @@ export default function useApplicationData() {
 			dispatch({
 				type: SET_APPLICATION_DATA,
 				value: {
-					days: Object.values(days.data),
-					appointments: Object.values(appointments.data),
-					interviewers: Object.values(interviewers.data)
+					days: days.data, //originally used Object.values(days) which create a bug
+					appointments: appointments.data,
+					interviewers: interviewers.data
 				}
 			});
 		});
 	}, []);
 
 	function bookInterview(id, interview) {
-		const appointment = {
-			...state.appointments[id - 1],
-			interview: { ...interview }
-		};
-
-		const appointments = {
-			...state.appointments,
-			[id - 1]: appointment
-		};
-		console.log("appointment value ", appointment, appointments);
-		return axios
-			.put(`/api/appointments/${id}`, { interview })
-			.then(response => {
-				console.log(response);
-				// setState({
-				// 	...state,
-				// 	appointments
-				// });
-				dispatch({ type: SET_INTERVIEW, value: appointments });
-			});
+		return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+			dispatch({ type: SET_INTERVIEW, id, interview });
+		});
 	}
 
 	function cancelInterview(id) {
-		const appointment = {
-			...state.appointments[id],
-			interview: null
-		};
-		const appointments = {
-			...state.appointments,
-			[id]: appointment
-		};
 		return axios.delete(`/api/appointments/${id}`).then(response => {
 			// setState({ ...state, appointments });
-			dispatch({ type: SET_INTERVIEW, value: appointments });
+			dispatch({ type: SET_INTERVIEW, id, interview: null });
 		});
 	}
 
