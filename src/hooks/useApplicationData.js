@@ -72,13 +72,6 @@ export default function useApplicationData() {
 		}
 	}
 
-	// const [state, setState] = useState({
-	// 	day: "Monday",
-	// 	days: [],
-	// 	appointments: {},
-	// 	interviewers: {}
-	// });
-
 	const setDay = day => dispatch({ type: SET_DAY, value: day });
 	//setState({ ...state, day });
 
@@ -88,7 +81,6 @@ export default function useApplicationData() {
 			Promise.resolve(axios.get("/api/appointments")),
 			Promise.resolve(axios.get("/api/interviewers"))
 		]).then(all => {
-			// console.log("got here", all[1].data);
 			const [days, appointments, interviewers] = all;
 			dispatch({
 				type: SET_APPLICATION_DATA,
@@ -109,7 +101,6 @@ export default function useApplicationData() {
 
 	function cancelInterview(id) {
 		return axios.delete(`/api/appointments/${id}`).then(response => {
-			// setState({ ...state, appointments });
 			dispatch({ type: SET_INTERVIEW, id, interview: null });
 		});
 	}

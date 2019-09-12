@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import "./styles.scss";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
@@ -7,7 +6,6 @@ export default function Form(props) {
 	const [name, setName] = useState(props.name || "");
 	const [interviewer, setInterviewer] = useState(props.interviewer || null); //useState version of setInterviewer
 
-	console.log("inside form --->", props);
 	const reset = function() {
 		setName("");
 		setInterviewer(null);
@@ -29,9 +27,6 @@ export default function Form(props) {
 						type="text"
 						value={name}
 						placeholder="Enter Student Name"
-						/*
-              This must be a controlled component
-            */
 					/>
 				</form>
 				<InterviewerList

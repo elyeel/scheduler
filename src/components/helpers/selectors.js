@@ -9,8 +9,6 @@ export function getAppointmentsForDay(state, day) {
 	for (let app of appts) {
 		state.appointments[app] && filteredDay.push(state.appointments[app]);
 	}
-	// const filteredDay = state.days.filter(appointments => appointments.name === name);
-	// console.log("result of getAppbyday ", "day -", day, filteredDay);
 	return filteredDay;
 }
 
@@ -25,7 +23,6 @@ export function getInterview(state, interview) {
 			result.interviewer = state.interviewers[inter];
 		}
 	}
-	// console.log(result);
 	return result;
 }
 
