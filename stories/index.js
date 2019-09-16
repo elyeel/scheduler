@@ -8,7 +8,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 /* Storybook is a test environment. We need to import the component that we are testing. */
-import Task from "Task.js";
+import Task from "./Task";
 import Button from "components/Button";
 
 import "index.scss";
