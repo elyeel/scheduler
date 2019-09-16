@@ -12,7 +12,6 @@ import Task from "Task.js";
 import Button from "components/Button";
 
 import "index.scss";
-// import "index2.scss";
 import DayListItem from "components/DayListItem.js";
 import DayList from "components/DayList.js";
 
