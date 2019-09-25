@@ -84,7 +84,7 @@ export default function Appointment(props) {
 			{mode === ERROR_DELETE && (
 				<Error
 					message="Error in deleting the interview"
-					onClose={() => back()}
+					onClose={() => back(SHOW)}
 				/>
 			)}
 			{mode === ERROR_SAVE && (
