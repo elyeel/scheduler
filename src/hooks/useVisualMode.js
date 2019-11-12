@@ -17,7 +17,7 @@ export default function useVisualMode(initial) {
 	};
 
 	const back = function(mode) {
-		console.log(mode, history); //test props
+		// console.log(mode, history); //test props
 		if (history.length > 1) {
 			history.pop();
 			// setHistory(history);
