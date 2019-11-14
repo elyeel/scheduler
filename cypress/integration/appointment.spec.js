@@ -1,3 +1,5 @@
+import { get } from "http";
+
 describe("Appointments", () => {
   beforeEach(() => {
     cy.request("GET", "/api/debug/reset");
@@ -33,5 +35,16 @@ describe("Appointments", () => {
 
     cy.contains(".appointment__card--show", "Samadi Kun");
     cy.contains(".appointment__card--show", "Tori Malcolm");
+  });
+
+  it("should cancel an interview", () => {
+    cy.get('[alt="Delete"]').click({ force: true });
+
+    cy.contains("Confirm").click();
+
+    cy.contains("Deleting").should("exist");
+    cy.contains("Deleting").should("not.exist");
+
+    cy.contains(".appointment__card--show", "Archie Cohen").should("not.exist");
   });
 });
