@@ -5,7 +5,7 @@ describe("Appointments", () => {
     cy.contains("Monday");
   });
 
-  it("should boon an interview", () => {
+  it("should book an interview", () => {
     cy.get("[alt=Add")
       .first()
       .click();
@@ -17,5 +17,21 @@ describe("Appointments", () => {
 
     cy.contains(".appointment__card--show", "Lydia Miller-Jones");
     cy.contains(".appointment__card--show", "Sylvia Palmer");
+  });
+
+  it("should edit an interview", () => {
+    cy.get('[alt="Edit"]')
+      .invoke("show")
+      .click();
+
+    cy.get("[data-testid=student-name-input]")
+      .clear()
+      .type("Samadi Kun");
+    cy.get('[alt="Tori Malcolm"]').click();
+
+    cy.contains("Save").click();
+
+    cy.contains(".appointment__card--show", "Samadi Kun");
+    cy.contains(".appointment__card--show", "Tori Malcolm");
   });
 });
